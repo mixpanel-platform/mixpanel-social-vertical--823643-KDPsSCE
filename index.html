@@ -1,15 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+<h1>Average DAU / Average MAU
+<br/>Across the world:</h1><br/><br/>
+
+Choose an event which defines DAU and MAU;<br/><br/>
+
+
+<div id="eventSelect" style="float: left;"></div>    
+<div style="clear: both;"></div>
+<br/><br/>
+I will look for the <i>average</i> DAUs over the last 30 days <b>divided by</b> the <i>average</i> MAUs over the last 10 months<br/><br/>
+<a href="http://www.startupdefinition.com/dau-over-mau" targe="_top">This statistic</a> will help you hone in on where your user population is most active for a particular event. Metrics are reported in decimals (out of 1)<br/>
+<br/>
+<br/>
+
+<div id="resultReport"></div>
+
     <script>
-      // Run queries and display results here
+    
+    var eventSelect = $('#eventSelect').appendTo('#eventSelect').MPEventSelect(); // Create the dropdown containing your top events
+    eventSelect.on('change', function(e, selection) { // Do something when an option is selected
+        query(selection);
+    });
+    var query = function(event) {
+        var eventName = event;
+        var $mau = MP.api.segment(eventName, 'mp_country_code', {
+            from: moment().subtract(10, 'months'),
+            to: moment(),
+            type: 'unique',
+            unit: 'month'
+        });
+        var $dau = MP.api.segment(eventName, 'mp_country_code', {
+            from: moment().subtract(30, 'days'),
+            to: moment(),
+            type: 'unique',
+            unit: 'day'
+        });
+        $.when($dau, $mau).done(function(dau, mau) {
+          $('#resultReport').empty();
+            $('<div></div>').appendTo('#resultReport').MPChart({
+                chartType: 'map',
+                data: dau.avg().divide(mau.avg())
+            });
+        });
+    }
     </script>
+
   </body>
 </html>
