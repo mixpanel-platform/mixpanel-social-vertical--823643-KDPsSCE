@@ -1,56 +1,358 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
-    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
-  </head>
-  <body class="mixpanel-platform-body">
+<!-- Styles -->
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}																													
+</style>
+
+<!-- Resources -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
+  <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+  <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+  <script src="https://www.amcharts.com/lib/3/maps/js/usaLow.js"></script>
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+  <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+<!-- Chart code -->
+<script>
+
+// states_hash =
+//   {
+//     'Alabama': 'AL',
+//     'Alaska': 'AK',
+//     'American Samoa': 'AS',
+//     'Arizona': 'AZ',
+//     'Arkansas': 'AR',
+//     'California': 'CA',
+//     'Colorado': 'CO',
+//     'Connecticut': 'CT',
+//     'Delaware': 'DE',
+//     'District Of Columbia': 'DC',
+//     'Federated States Of Micronesia': 'FM',
+//     'Florida': 'FL',
+//     'Georgia': 'GA',
+//     'Guam': 'GU',
+//     'Hawaii': 'HI',
+//     'Idaho': 'ID',
+//     'Illinois': 'IL',
+//     'Indiana': 'IN',
+//     'Iowa': 'IA',
+//     'Kansas': 'KS',
+//     'Kentucky': 'KY',
+//     'Louisiana': 'LA',
+//     'Maine': 'ME',
+//     'Marshall Islands': 'MH',
+//     'Maryland': 'MD',
+//     'Massachusetts': 'MA',
+//     'Michigan': 'MI',
+//     'Minnesota': 'MN',
+//     'Mississippi': 'MS',
+//     'Missouri': 'MO',
+//     'Montana': 'MT',
+//     'Nebraska': 'NE',
+//     'Nevada': 'NV',
+//     'New Hampshire': 'NH',
+//     'New Jersey': 'NJ',
+//     'New Mexico': 'NM',
+//     'New York': 'NY',
+//     'North Carolina': 'NC',
+//     'North Dakota': 'ND',
+//     'Northern Mariana Islands': 'MP',
+//     'Ohio': 'OH',
+//     'Oklahoma': 'OK',
+//     'Oregon': 'OR',
+//     'Palau': 'PW',
+//     'Pennsylvania': 'PA',
+//     'Puerto Rico': 'PR',
+//     'Rhode Island': 'RI',
+//     'South Carolina': 'SC',
+//     'South Dakota': 'SD',
+//     'Tennessee': 'TN',
+//     'Texas': 'TX',
+//     'Utah': 'UT',
+//     'Vermont': 'VT',
+//     'Virgin Islands': 'VI',
+//     'Virginia': 'VA',
+//     'Washington': 'WA',
+//     'West Virginia': 'WV',
+//     'Wisconsin': 'WI',
+//     'Wyoming': 'WY'
+//   }
+  
+//   state_abbrev_hash =  {
+//     'AL': 'Alabama',
+//     'AK': 'Alaska',
+//     'AS': 'American Samoa',
+//     'AZ': 'Arizona',
+//     'AR': 'Arkansas',
+//     'CA': 'California',
+//     'CO': 'Colorado',
+//     'CT': 'Connecticut',
+//     'DE': 'Delaware',
+//     'DC': 'District Of Columbia',
+//     'FM': 'Federated States Of Micronesia',
+//     'FL': 'Florida',
+//     'GA': 'Georgia',
+//     'GU': 'Guam',
+//     'HI': 'Hawaii',
+//     'ID': 'Idaho',
+//     'IL': 'Illinois',
+//     'IN': 'Indiana',
+//     'IA': 'Iowa',
+//     'KS': 'Kansas',
+//     'KY': 'Kentucky',
+//     'LA': 'Louisiana',
+//     'ME': 'Maine',
+//     'MH': 'Marshall Islands',
+//     'MD': 'Maryland',
+//     'MA': 'Massachusetts',
+//     'MI': 'Michigan',
+//     'MN': 'Minnesota',
+//     'MS': 'Mississippi',
+//     'MO': 'Missouri',
+//     'MT': 'Montana',
+//     'NE': 'Nebraska',
+//     'NV': 'Nevada',
+//     'NH': 'New Hampshire',
+//     'NJ': 'New Jersey',
+//     'NM': 'New Mexico',
+//     'NY': 'New York',
+//     'NC': 'North Carolina',
+//     'ND': 'North Dakota',
+//     'MP': 'Northern Mariana Islands',
+//     'OH': 'Ohio',
+//     'OK': 'Oklahoma',
+//     'OR': 'Oregon',
+//     'PW': 'Palau',
+//     'PA': 'Pennsylvania',
+//     'PR': 'Puerto Rico',
+//     'RI': 'Rhode Island',
+//     'SC': 'South Carolina',
+//     'SD': 'South Dakota',
+//     'TN': 'Tennessee',
+//     'TX': 'Texas',
+//     'UT': 'Utah',
+//     'VT': 'Vermont',
+//     'VI': 'Virgin Islands',
+//     'VA': 'Virginia',
+//     'WA': 'Washington',
+//     'WV': 'West Virginia',
+//     'WI': 'Wisconsin',
+//     'WY': 'Wyoming'
+//   };
+
+MP.api.segment('App Open', "$region", {where: '(properties["mp_country_code"] == "US")' }).done(function(geo){
+  var defaultMap = "usaLow";
+  
+  // var countryMaps = {
+  //   "AF": [ "afghanistanLow" ],
+  //   "AL": [ "albaniaLow" ],
+  //   "DZ": [ "algeriaLow" ],
+  //   "AD": [ "andorraLow" ],
+  //   "AO": [ "angolaLow" ],
+  //   "AR": [ "argentinaLow" ],
+  //   "AM": [ "armeniaLow" ],
+  //   "AU": [ "australiaLow" ],
+  //   "AT": [ "austriaLow" ],
+  //   "AZ": [ "azerbaijanLow" ],
+  //   "BS": [ "bahamasLow" ],
+  //   "BH": [ "bahrainLow" ],
+  //   "BD": [ "bangladeshLow" ],
+  //   "BY": [ "belarusLow" ],
+  //   "BE": [ "belgiumLow" ],
+  //   "BZ": [ "belizeLow" ],
+  //   "BT": [ "bhutanLow" ],
+  //   "BO": [ "boliviaLow" ],
+  //   "BA": [ "bosniaHerzegovinaCantonsLow" ],
+  //   "BW": [ "botswanaLow" ],
+  //   "BR": [ "brazilLow" ],
+  //   "BN": [ "bruneiDarussalamLow" ],
+  //   "BG": [ "bulgariaLow" ],
+  //   "BF": [ "burkinaFasoLow" ],
+  //   "BI": [ "burundiLow" ],
+  //   "KH": [ "cambodiaLow" ],
+  //   "CM": [ "cameroonLow" ],
+  //   "CA": [ "canadaLow" ],
+  //   "CV": [ "capeVerdeLow" ],
+  //   "CF": [ "centralAfricanRepublicLow" ],
+  //   "TD": [ "chadLow" ],
+  //   "CL": [ "chileLow" ],
+  //   "CN": [ "chinaLow" ],
+  //   "CO": [ "colombiaLow" ],
+  //   "CD": [ "congoDRLow" ],
+  //   "CG": [ "congoLow" ],
+  //   "CR": [ "costaRicaLow" ],
+  //   "HR": [ "croatiaLow" ],
+  //   "CU": [ "cubaLow" ],
+  //   "CY": [ "cyprusLow" ],
+  //   "UN": [ "cyprusNorthernCyprusLow" ],
+  //   "GB": [ "unitedKingdomLow" ],
+  //   "CZ": [ "czechRepublicLow" ],
+  //   "DK": [ "denmarkLow" ],
+  //   "DJ": [ "djiboutiLow" ],
+  //   "DO": [ "dominicanRepublicLow" ],
+  //   "EC": [ "ecuadorLow" ],
+  //   "EG": [ "egyptLow" ],
+  //   "SV": [ "elSalvadorLow" ],
+  //   "EE": [ "estoniaLow" ],
+  //   "FI": [ "finlandLow" ],
+  //   "FR": [ "france2016Low" ],
+  //   "GE": [ "georgiaLow" ],
+  //   "DE": [ "germanyLow" ],
+  //   "GR": [ "greeceLow" ],
+  //   "GT": [ "guatemalaLow" ],
+  //   "GN": [ "guineaLow" ],
+  //   "GY": [ "guyanaLow" ],
+  //   "HT": [ "haitiLow" ],
+  //   "HN": [ "hondurasLow" ],
+  //   "HK": [ "hongKongLow" ],
+  //   "HU": [ "hungaryLow" ],
+  //   "GL": [ "icelandLow" ],
+  //   "IS": [ "icelandLow" ],
+  //   "IN": [ "indiaLow" ],
+  //   "ID": [ "indonesiaLow" ],
+  //   "MY": [ "malaysiaLow" ],
+  //   "IR": [ "iranLow" ],
+  //   "IQ": [ "iraqLow" ],
+  //   "IE": [ "irelandLow" ],
+  //   "IL": [ "israelLow" ],
+  //   "PS": [ "palestineLow" ],
+  //   "VA": [ "italyLow" ],
+  //   "SM": [ "sanMarinoLow" ],
+  //   "MT": [ "italyLow" ],
+  //   "IT": [ "italyLow" ],
+  //   "JM": [ "jamaicaLow" ],
+  //   "JP": [ "japanLow" ],
+  //   "KZ": [ "kazakhstanLow" ],
+  //   "KE": [ "kenyaLow" ],
+  //   "XK": [ "kosovoLow" ],
+  //   "KG": [ "kyrgyzstanLow" ],
+  //   "LA": [ "laosLow" ],
+  //   "LV": [ "latviaLow" ],
+  //   "LT": [ "lithuaniaLow" ],
+  //   "LU": [ "luxembourgLow" ],
+  //   "MK": [ "macedoniaLow" ],
+  //   "ML": [ "maliLow" ],
+  //   "MX": [ "mexicoLow" ],
+  //   "MD": [ "moldovaLow" ],
+  //   "MN": [ "mongoliaLow" ],
+  //   "ME": [ "montenegroLow" ],
+  //   "MA": [ "moroccoLow" ],
+  //   "MM": [ "myanmarLow" ],
+  //   "NP": [ "nepalLow" ],
+  //   "NL": [ "netherlandsLow" ],
+  //   "NZ": [ "newZealandLow" ],
+  //   "NI": [ "nicaraguaLow" ],
+  //   "NG": [ "nigeriaLow" ],
+  //   "NO": [ "norwayLow" ],
+  //   "AE": [ "unitedArabEmiratesLow" ],
+  //   "OM": [ "omanLow" ],
+  //   "PK": [ "pakistanLow" ],
+  //   "PA": [ "panamaLow" ],
+  //   "PY": [ "paraguayLow" ],
+  //   "PE": [ "peruLow" ],
+  //   "PH": [ "philippinesLow" ],
+  //   "PL": [ "polandLow" ],
+  //   "PT": [ "portugalLow" ],
+  //   "PR": [ "puertoRicoLow" ],
+  //   "US": [ "usaLow" ],
+  //   "QA": [ "qatarLow" ],
+  //   "RO": [ "romaniaLow" ],
+  //   "RW": [ "rwandaLow" ],
+  //   "SA": [ "saudiArabiaLow" ],
+  //   "RS": [ "serbiaLow" ],
+  //   "SG": [ "singaporeLow" ],
+  //   "SK": [ "slovakiaLow" ],
+  //   "SI": [ "sloveniaLow" ],
+  //   "LS": [ "southAfricaLow" ],
+  //   "ZA": [ "southAfricaLow" ],
+  //   "KR": [ "southKoreaLow" ],
+  //   "ES": [ "spainLow" ],
+  //   "LK": [ "sriLankaLow" ],
+  //   "SR": [ "surinameLow" ],
+  //   "SE": [ "swedenLow" ],
+  //   "CH": [ "switzerlandLow" ],
+  //   "SY": [ "syriaLow" ],
+  //   "TW": [ "taiwanLow" ],
+  //   "TJ": [ "tajikistanLow" ],
+  //   "TH": [ "thailandLow" ],
+  //   "TR": [ "turkeyLow" ],
+  //   "UG": [ "ugandaLow" ],
+  //   "UA": [ "ukraineLow" ],
+  //   "GG": [ "unitedKingdomLow" ],
+  //   "JE": [ "unitedKingdomLow" ],
+  //   "IM": [ "unitedKingdomLow" ],
+  //   "UY": [ "uruguayLow" ],
+  //   "UZ": [ "uzbekistanLow" ],
+  //   "VE": [ "venezuelaLow" ],
+  //   "VN": [ "vietnamLow" ],
+  //   "YE": [ "yemenLow" ]
+  // };
+
+  // calculate which map to be used
+  // var currentMap = defaultMap;
+  // var titles = [];
+  // if ( countryMaps[ geo.country_code ] !== undefined ) {
+  //   currentMap = countryMaps[ geo.country_code ][ 0 ];
+
+  //   // add country title
+  //   if ( geo.country_name ) {
+  //     titles.push( {
+  //       "text": geo.country_name
+  //     } );
+  //   }
+
+  // }
+  
+  var map = AmCharts.makeChart( "chartdiv", {
+    "type": "map",
+    "theme": "light",    
+    "colorSteps": 10,
+    "dataProvider": {
+      "map": "usaLow",
+      "getAreasFromMap": true,
+      "zoomLevel": 0.9,
+      "areas": []
+    },
+    "areasSettings": {
+      "autoZoom": true,
+      "balloonText": "[[title]]: <strong>[[value]]</strong>"
+    },
+    "valueLegend": {
+      "right": 10,
+      "minValue": "little",
+      "maxValue": "a lot!"
+    },
+    "zoomControl": {
+      "minZoomLevel": 0.9
+    },
+    //"titles": titles,
+    "listeners": [ {
+      "event": "init",
+      "method": updateHeatmap
+    } ]
+  } );
+
+
+  function updateHeatmap( event ) {
+    var map = event.chart;
+    debugger
+    _.each(map.dataProvider.areas, function(state, idx){
+      var stateData = MP.Data.inst(geo.json[state.title]);
+
+      map.dataProvider.areas[idx].value = stateData.sum().values()
+    })
+    map.dataGenerated = true;
+    map.validateNow();
+  }
+} );
+</script>
+
+<!-- HTML -->
 <h1>Average DAU / Average MAU
 <br/>Across the world:</h1><br/><br/>
-
-Choose an event which defines DAU and MAU;<br/><br/>
-
-
-<div id="eventSelect" style="float: left;"></div>    
-<div style="clear: both;"></div>
-<br/><br/>
-I will look for the <i>average</i> DAUs over the last 30 days <b>divided by</b> the <i>average</i> MAUs over the last 10 months<br/><br/>
-<a href="http://www.startupdefinition.com/dau-over-mau" targe="_top">This statistic</a> will help you hone in on where your user population is most active for a particular event. Metrics are reported in decimals (out of 1)<br/>
-<br/>
-<br/>
-
-<div id="resultReport"></div>
-
-    <script>
-    
-    var eventSelect = $('#eventSelect').appendTo('#eventSelect').MPEventSelect(); // Create the dropdown containing your top events
-    eventSelect.on('change', function(e, selection) { // Do something when an option is selected
-        query(selection);
-    });
-    var query = function(event) {
-        var eventName = event;
-        var $mau = MP.api.segment(eventName, 'mp_country_code', {
-            from: moment().subtract(10, 'months'),
-            to: moment(),
-            type: 'unique',
-            unit: 'month'
-        });
-        var $dau = MP.api.segment(eventName, 'mp_country_code', {
-            from: moment().subtract(30, 'days'),
-            to: moment(),
-            type: 'unique',
-            unit: 'day'
-        });
-        $.when($dau, $mau).done(function(dau, mau) {
-          $('#resultReport').empty();
-            $('<div></div>').appendTo('#resultReport').MPChart({
-                chartType: 'map',
-                data: dau.avg().divide(mau.avg())
-            });
-        });
-    }
-    </script>
-
-  </body>
-</html>
+<div id="chartdiv"></div>	
