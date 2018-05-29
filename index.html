@@ -145,7 +145,7 @@
 //     'WY': 'Wyoming'
 //   };
 
-MP.api.segment('App Open', "$region", {where: '(properties["mp_country_code"] == "US")' }).done(function(geo){
+MP.api.segment('Share Content', "$region", {where: '(properties["mp_country_code"] == "US")' }).done(function(geo){
   var defaultMap = "usaLow";
   
   // var countryMaps = {
@@ -353,6 +353,6 @@ MP.api.segment('App Open', "$region", {where: '(properties["mp_country_code"] ==
 </script>
 
 <!-- HTML -->
-<h1>Average DAU / Average MAU
-<br/>Across the world:</h1><br/><br/>
+<div><h1>Total Content Shares
+<br/>Across the US:</h1><br/><br/></div>
 <div id="chartdiv"></div>	
